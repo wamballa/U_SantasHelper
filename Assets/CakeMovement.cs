@@ -15,8 +15,12 @@ public class CakeMovement : MonoBehaviour
 
     //public Vector2 ConveyorDirection { get; set; }
     //public float ConveyorSpeed { get; set; }
-    public int ConveyorLevel { get; set; }
+    //public int ConveyorLevel { get; set; }
     private bool CanPackTruck { get; set; }
+
+    public Transform currentOven;
+
+
 
     // Timer
     private float pauseTimer = 0;
@@ -111,6 +115,9 @@ public class CakeMovement : MonoBehaviour
             case CakeController.CakeState.IsCooking:
                 StartCoroutine(CookCake());
                 break;
+            case CakeController.CakeState.IsMovingIntoOven:
+                StartCoroutine(MoveTowardsOven(currentOven));
+                break;
 
 
                 //if (IsPaused || IsPacked )
@@ -131,8 +138,40 @@ public class CakeMovement : MonoBehaviour
         }
     }
 
-    IEnumerator CookCake()
+
+    //private void HandleOvenCollision(Transform ovenTransform)
+    //{
+    //    print("> Cake Collision > OnTriggerEnter2D > Cake Moving Toward Oven");
+    //    StartCoroutine(MoveTowardsOven(ovenTransform));
+    //}
+
+    private IEnumerator MoveTowardsOven(Transform ovenTransform)
     {
+        float thresholdDistance = 0.1f; // Distance at which the cake is "close enough" to the oven
+
+        while (Vector2.Distance(transform.position, ovenTransform.position) > thresholdDistance)
+        {
+            // Move the cake closer to the oven
+            Vector2 _conveyorDirection = cakeController.currentConveyorBelt.direction;
+            float _conveyorSpeed = cakeController.currentConveyorBelt.speed;
+            rb.linearVelocity = _conveyorDirection * _conveyorSpeed;
+            //transform.position = Vector2.MoveTowards(transform.position, ovenTransform.position, speed * Time.deltaTime);
+            yield return null;
+        }
+
+        // Once the cake is close enough, update its state
+        print("> Cake Collision > Cake Reached Oven > ISCOOKING");
+        cakeController.currentState = CakeController.CakeState.IsCooking;
+        cakeController.currentState = CakeController.CakeState.IsOnConveyorBelt;
+    }
+
+
+
+
+
+IEnumerator CookCake()
+    {
+        print("COOK CAKE");
         Vector2 orginalVelocity = rb.linearVelocity;
         rb.linearVelocity = Vector2.zero;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;

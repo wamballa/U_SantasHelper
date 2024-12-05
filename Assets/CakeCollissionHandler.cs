@@ -29,7 +29,7 @@ public class CakeCollisionHandler : MonoBehaviour
 
         }
 
-        if (collision.transform.CompareTag("Floor") 
+        if (collision.transform.CompareTag("Floor")
             && cakeController.currentState == CakeController.CakeState.IsFalling)
         {
             cakeController.currentState = CakeController.CakeState.IsOnFloor;
@@ -75,15 +75,35 @@ public class CakeCollisionHandler : MonoBehaviour
 
         if (collision.transform.CompareTag("Oven"))
         {
-            //bool movingRight = (cakeMovement.ConveyorDirection.x > 0);
-            //StartCoroutine(cakeController.WaitAndChangeSprite(collision.transform.position, movingRight));
-            print("> Cake Collision > OnTriggerEnter2D >  Cake Cooking");
-            if (Mathf.Abs(transform.localPosition.x - collision.transform.localPosition.x) < 0.5f)
-            {
-                print("> ISCOOKING");
-                cakeController.currentState = CakeController.CakeState.IsCooking;
-            }
+            //HandleOvenCollision(collision.transform);
+            cakeMovement.currentOven = collision.transform;
+            cakeController.currentState = CakeController.CakeState.IsMovingIntoOven;
 
         }
     }
+
+    //    private void HandleOvenCollision(Transform ovenTransform)
+    //    {
+    //        print("> Cake Collision > OnTriggerEnter2D > Cake Moving Toward Oven");
+    //        StartCoroutine(MoveTowardsOven(ovenTransform));
+    //    }
+
+    //    private IEnumerator MoveTowardsOven(Transform ovenTransform)
+    //    {
+    //        float thresholdDistance = 0.5f; // Distance at which the cake is "close enough" to the oven
+    //        float speed = cakeMovement.current; // Assuming ConveyorSpeed exists in CakeMovement
+
+    //        while (Vector2.Distance(transform.position, ovenTransform.position) > thresholdDistance)
+    //        {
+    //            // Move the cake closer to the oven
+    //            transform.position = Vector2.MoveTowards(transform.position, ovenTransform.position, speed * Time.deltaTime);
+    //            yield return null;
+    //        }
+
+    //        // Once the cake is close enough, update its state
+    //        print("> Cake Collision > Cake Reached Oven > ISCOOKING");
+    //        cakeController.currentState = CakeController.CakeState.IsCooking;
+    //    }
+
+    //}
 }

@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
         if (playerController.RightPositionTarget != playerController.RightPositionCurrent)
         {
             // Move
-            print(">> " + playerController.RightPositionTarget);
+            //print(">> " + playerController.RightPositionTarget);
             rightPlayerTransform.position =
                 playerController.RightTransforms[
                     playerController.RightPositionTarget].position;

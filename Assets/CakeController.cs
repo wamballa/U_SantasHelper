@@ -21,7 +21,8 @@ public class CakeController : MonoBehaviour
         IsFalling,
         IsOnFloor,
         IsPacked,
-        IsCooking
+        IsCooking,
+        IsMovingIntoOven
     }
     public CakeState currentState;
 
@@ -48,7 +49,7 @@ public class CakeController : MonoBehaviour
     public int conveyorLevel;
 
     // Cake sprites
-    SpriteRenderer[] cakeSprites;
+    public SpriteRenderer[] cakeSprites;
     private int curretCakeID;
 
     bool isPacked;
@@ -67,6 +68,17 @@ public class CakeController : MonoBehaviour
     {
         debugText.text = currentState.ToString();
         //CheckIfLastPlatform();
+        HandleCakeStates();
+    }
+
+    void HandleCakeStates()
+    {
+        switch (currentState)
+        {
+            case CakeState.IsCooking:
+
+                break;
+        }
     }
 
     public IEnumerator WaitAndChangeSprite(Vector3 ovenPosition, bool movingRight)

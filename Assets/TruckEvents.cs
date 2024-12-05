@@ -20,7 +20,7 @@ public class TruckEvents : MonoBehaviour
     private void OnLevelStart(object sender, EventArgs e)
     {
         //print("> TRUCK > OnLevelStart");
-        truckController.currentState = TruckController.TruckState.IsEntering;
+        truckController.currentState = TruckController.TruckState.CanEnter;
     }
 
     // Called when the level is complete

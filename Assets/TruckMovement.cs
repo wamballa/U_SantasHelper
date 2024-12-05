@@ -24,16 +24,20 @@ public class TruckMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         CheckControllerState();
     }
 
     private void CheckControllerState()
     {
+        if (truckController.currentState == TruckController.TruckState.CanEnter) print("hello");
+
         switch (truckController.currentState)
         {
-            case TruckController.TruckState.IsEntering:
+            case TruckController.TruckState.CanEnter:
+                truckController.currentState = TruckController.TruckState.IsEntering;
                 StartCoroutine(MoveToPosition(endPosition.position, 0, false));
+
                 break;
             case TruckController.TruckState.IsExiting:
                 break;
@@ -44,7 +48,7 @@ public class TruckMovement : MonoBehaviour
     {
 
         Vector2 _startPosition = rigidbody.position;
-        //print("TRUCK: TruckMovesAway " + _targetPos);
+        print("TRUCK: TruckMovesAway " + _targetPos);
         //Vector2 targetPosition = new Vector2(rb.position.x - 6f, rb.position.y);
         float timer = 0f;
 
@@ -52,6 +56,7 @@ public class TruckMovement : MonoBehaviour
 
         while (timer < duration)
         {
+            print(">>");
             timer += Time.deltaTime;
             float t = timer / duration;
 
@@ -63,6 +68,8 @@ public class TruckMovement : MonoBehaviour
 
             yield return null;
         }
+
+        truckController.currentState = TruckController.TruckState.IsIdle;
 
         if (_levelComplete)
         {

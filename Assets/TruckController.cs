@@ -7,8 +7,10 @@ public class TruckController : MonoBehaviour
     public enum TruckState
     {
         IsIdle,
-        IsOnGameScreen, 
+        IsOnGameScreen,
+        CanEnter,
         IsEntering,
+        CanExit,
         IsExiting
     }
     public TruckState currentState;
@@ -24,9 +26,9 @@ public class TruckController : MonoBehaviour
     Rigidbody2D rb;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        currentState = TruckState.IsEntering;
+        currentState = TruckState.IsIdle;
 
 
         CanMove = false;
